@@ -9,10 +9,7 @@ data_out = soup.find_all('div', class_='maincounter-number')
 data_out = [data_out.find('span').text.strip() for data_out in data_out]
 
 text = f"🦠Cases: {data_out[0]}\n☠️Deaths: {data_out[1]}\n🏥Recovered: {data_out[2]}"
-print(data_out)
-
-
-# requests.post(f"https://api.telegram.org/bot{settings.TELEGRAM_API_KEY}/sendMessage?text={text}&chat_id=997060203")
+requests.post(f"https://api.telegram.org/bot{settings.TELEGRAM_API_KEY}/sendMessage?text={text}&chat_id=997060203")
 
 mapping_dict = {
     'TSLA': 'https://www.marketwatch.com/investing/stock/tsla',
