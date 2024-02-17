@@ -1,0 +1,117 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #7a7e85;}
+.s3 { color: #bcbec4;}
+.s4 { color: #6aab73;}
+.s5 { color: #2aacb8;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">requests</span>
+<span class="s0">from </span><span class="s1">bs4 </span><span class="s0">import </span><span class="s1">BeautifulSoup</span>
+<span class="s0">from </span><span class="s1">config </span><span class="s0">import </span><span class="s1">settings</span>
+
+<span class="s2">#covid cases</span>
+<span class="s1">data_request </span><span class="s3">= </span><span class="s1">requests</span><span class="s3">.</span><span class="s1">get</span><span class="s3">(</span><span class="s4">'https://www.worldometers.info/coronavirus/'</span><span class="s3">)</span>
+<span class="s1">soup </span><span class="s3">= </span><span class="s1">BeautifulSoup</span><span class="s3">(</span><span class="s1">data_request</span><span class="s3">.</span><span class="s1">content</span><span class="s3">, </span><span class="s4">'html.parser'</span><span class="s3">)</span>
+<span class="s1">data_out </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find_all</span><span class="s3">(</span><span class="s4">'div'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'maincounter-number'</span><span class="s3">)</span>
+<span class="s1">data_out </span><span class="s3">= [</span><span class="s1">data_out</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">).</span><span class="s1">text</span><span class="s3">.</span><span class="s1">strip</span><span class="s3">() </span><span class="s0">for </span><span class="s1">data_out </span><span class="s0">in </span><span class="s1">data_out</span><span class="s3">]</span>
+
+<span class="s1">text </span><span class="s3">= </span><span class="s4">f&quot;🦠Cases: </span><span class="s0">{</span><span class="s1">data_out</span><span class="s3">[</span><span class="s5">0</span><span class="s3">]</span><span class="s0">}\n</span><span class="s4">☠️Deaths: </span><span class="s0">{</span><span class="s1">data_out</span><span class="s3">[</span><span class="s5">1</span><span class="s3">]</span><span class="s0">}\n</span><span class="s4">🏥Recovered: </span><span class="s0">{</span><span class="s1">data_out</span><span class="s3">[</span><span class="s5">2</span><span class="s3">]</span><span class="s0">}</span><span class="s4">&quot;</span>
+<span class="s1">print</span><span class="s3">(</span><span class="s1">data_out</span><span class="s3">)</span>
+<span class="s1">requests</span><span class="s3">.</span><span class="s1">post</span><span class="s3">(</span><span class="s4">f&quot;https://api.telegram.org/bot</span><span class="s0">{</span><span class="s1">settings</span><span class="s3">.</span><span class="s1">TELEGRAM_API_KEY</span><span class="s0">}</span><span class="s4">/sendMessage?text=</span><span class="s0">{</span><span class="s1">text</span><span class="s0">}</span><span class="s4">&amp;chat_id=997060203&quot;</span><span class="s3">)</span>
+
+
+
+<span class="s2"># tsla stock</span>
+<span class="s1">data_request </span><span class="s3">= </span><span class="s1">requests</span><span class="s3">.</span><span class="s1">get</span><span class="s3">(</span><span class="s4">'https://www.marketwatch.com/investing/stock/tsla'</span><span class="s3">)</span>
+<span class="s1">soup </span><span class="s3">= </span><span class="s1">BeautifulSoup</span><span class="s3">(</span><span class="s1">data_request</span><span class="s3">.</span><span class="s1">content</span><span class="s3">, </span><span class="s4">'html.parser'</span><span class="s3">)</span>
+
+<span class="s1">stock_price </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'bg-quote'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'value'</span><span class="s3">)</span>
+<span class="s1">day_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__primary'</span><span class="s3">)</span>
+<span class="s1">pe_ratio </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'li'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'kv__item'</span><span class="s3">)</span>
+<span class="s1">week_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__item'</span><span class="s3">)</span>
+
+<span class="s1">text </span><span class="s3">= </span><span class="s4">f&quot;⚡TSLA: </span><span class="s0">{</span><span class="s1">stock_price</span><span class="s0">}\n</span><span class="s4">📈Day Range: </span><span class="s0">{</span><span class="s1">day_range</span><span class="s0">}\n</span><span class="s4">📊PE Ratio: </span><span class="s0">{</span><span class="s1">pe_ratio</span><span class="s0">}\n</span><span class="s4">📉52 Week Range: </span><span class="s0">{</span><span class="s1">week_range</span><span class="s0">}</span><span class="s4">&quot;</span>
+
+<span class="s1">requests</span><span class="s3">.</span><span class="s1">post</span><span class="s3">(</span><span class="s4">f&quot;https://api.telegram.org/bot</span><span class="s0">{</span><span class="s1">settings</span><span class="s3">.</span><span class="s1">TELEGRAM_API_KEY</span><span class="s0">}</span><span class="s4">/sendMessage?text=</span><span class="s0">{</span><span class="s1">text</span><span class="s0">}</span><span class="s4">&amp;chat_id=997060203&quot;</span><span class="s3">)</span>
+
+<span class="s1">print</span><span class="s3">(</span><span class="s1">stock_price</span><span class="s3">, </span><span class="s1">day_range</span><span class="s3">, </span><span class="s1">pe_ratio</span><span class="s3">, </span><span class="s1">week_range</span><span class="s3">)</span>
+
+
+<span class="s2"># amzn stock</span>
+<span class="s1">data_request </span><span class="s3">= </span><span class="s1">requests</span><span class="s3">.</span><span class="s1">get</span><span class="s3">(</span><span class="s4">'https://www.marketwatch.com/investing/stock/amzn'</span><span class="s3">)</span>
+<span class="s1">soup </span><span class="s3">= </span><span class="s1">BeautifulSoup</span><span class="s3">(</span><span class="s1">data_request</span><span class="s3">.</span><span class="s1">content</span><span class="s3">, </span><span class="s4">'html.parser'</span><span class="s3">)</span>
+
+<span class="s1">stock_price </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'bg-quote'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'value'</span><span class="s3">)</span>
+<span class="s1">day_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__primary'</span><span class="s3">)</span>
+<span class="s1">pe_ratio </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'li'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'kv__item'</span><span class="s3">)</span>
+<span class="s1">week_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__item'</span><span class="s3">)</span>
+
+<span class="s1">text </span><span class="s3">= </span><span class="s4">f&quot;📦AMZN: </span><span class="s0">{</span><span class="s1">stock_price</span><span class="s0">}\n</span><span class="s4">📈Day Range: </span><span class="s0">{</span><span class="s1">day_range</span><span class="s0">}\n</span><span class="s4">📊PE Ratio: </span><span class="s0">{</span><span class="s1">pe_ratio</span><span class="s0">}\n</span><span class="s4">📉52 Week Range: </span><span class="s0">{</span><span class="s1">week_range</span><span class="s0">}</span><span class="s4">&quot;</span>
+
+<span class="s1">requests</span><span class="s3">.</span><span class="s1">post</span><span class="s3">(</span><span class="s4">f&quot;https://api.telegram.org/bot</span><span class="s0">{</span><span class="s1">settings</span><span class="s3">.</span><span class="s1">TELEGRAM_API_KEY</span><span class="s0">}</span><span class="s4">/sendMessage?text=</span><span class="s0">{</span><span class="s1">text</span><span class="s0">}</span><span class="s4">&amp;chat_id=997060203&quot;</span><span class="s3">)</span>
+
+<span class="s1">print</span><span class="s3">(</span><span class="s1">stock_price</span><span class="s3">, </span><span class="s1">day_range</span><span class="s3">, </span><span class="s1">pe_ratio</span><span class="s3">, </span><span class="s1">week_range</span><span class="s3">)</span>
+
+
+<span class="s2"># google stock</span>
+<span class="s1">data_request </span><span class="s3">= </span><span class="s1">requests</span><span class="s3">.</span><span class="s1">get</span><span class="s3">(</span><span class="s4">'https://www.marketwatch.com/investing/stock/googl'</span><span class="s3">)</span>
+<span class="s1">soup </span><span class="s3">= </span><span class="s1">BeautifulSoup</span><span class="s3">(</span><span class="s1">data_request</span><span class="s3">.</span><span class="s1">content</span><span class="s3">, </span><span class="s4">'html.parser'</span><span class="s3">)</span>
+
+<span class="s1">stock_price </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'bg-quote'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'value'</span><span class="s3">)</span>
+<span class="s1">day_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__primary'</span><span class="s3">)</span>
+<span class="s1">pe_ratio </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'li'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'kv__item'</span><span class="s3">)</span>
+<span class="s1">week_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__item'</span><span class="s3">)</span>
+
+<span class="s1">text </span><span class="s3">= </span><span class="s4">f&quot;🔍GOOGL: </span><span class="s0">{</span><span class="s1">stock_price</span><span class="s0">}\n</span><span class="s4">📈Day Range: </span><span class="s0">{</span><span class="s1">day_range</span><span class="s0">}\n</span><span class="s4">📊PE Ratio: </span><span class="s0">{</span><span class="s1">pe_ratio</span><span class="s0">}\n</span><span class="s4">📉52 Week Range: </span><span class="s0">{</span><span class="s1">week_range</span><span class="s0">}</span><span class="s4">&quot;</span>
+
+<span class="s1">requests</span><span class="s3">.</span><span class="s1">post</span><span class="s3">(</span><span class="s4">f&quot;https://api.telegram.org/bot</span><span class="s0">{</span><span class="s1">settings</span><span class="s3">.</span><span class="s1">TELEGRAM_API_KEY</span><span class="s0">}</span><span class="s4">/sendMessage?text=</span><span class="s0">{</span><span class="s1">text</span><span class="s0">}</span><span class="s4">&amp;chat_id=997060203&quot;</span><span class="s3">)</span>
+
+<span class="s1">print</span><span class="s3">(</span><span class="s1">stock_price</span><span class="s3">, </span><span class="s1">day_range</span><span class="s3">, </span><span class="s1">pe_ratio</span><span class="s3">, </span><span class="s1">week_range</span><span class="s3">)</span>
+
+
+<span class="s2"># aapl stock</span>
+<span class="s1">data_request </span><span class="s3">= </span><span class="s1">requests</span><span class="s3">.</span><span class="s1">get</span><span class="s3">(</span><span class="s4">'https://www.marketwatch.com/investing/stock/aapl'</span><span class="s3">)</span>
+<span class="s1">soup </span><span class="s3">= </span><span class="s1">BeautifulSoup</span><span class="s3">(</span><span class="s1">data_request</span><span class="s3">.</span><span class="s1">content</span><span class="s3">, </span><span class="s4">'html.parser'</span><span class="s3">)</span>
+
+<span class="s1">stock_price </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'bg-quote'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'value'</span><span class="s3">)</span>
+<span class="s1">day_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__primary'</span><span class="s3">)</span>
+<span class="s1">pe_ratio </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'li'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'kv__item'</span><span class="s3">)</span>
+<span class="s1">week_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__item'</span><span class="s3">)</span>
+
+<span class="s1">text </span><span class="s3">= </span><span class="s4">f&quot;🍏AAPL: </span><span class="s0">{</span><span class="s1">stock_price</span><span class="s0">}\n</span><span class="s4">📈Day Range: </span><span class="s0">{</span><span class="s1">day_range</span><span class="s0">}\n</span><span class="s4">📊PE Ratio: </span><span class="s0">{</span><span class="s1">pe_ratio</span><span class="s0">}\n</span><span class="s4">📉52 Week Range: </span><span class="s0">{</span><span class="s1">week_range</span><span class="s0">}</span><span class="s4">&quot;</span>
+
+<span class="s1">requests</span><span class="s3">.</span><span class="s1">post</span><span class="s3">(</span><span class="s4">f&quot;https://api.telegram.org/bot</span><span class="s0">{</span><span class="s1">settings</span><span class="s3">.</span><span class="s1">TELEGRAM_API_KEY</span><span class="s0">}</span><span class="s4">/sendMessage?text=</span><span class="s0">{</span><span class="s1">text</span><span class="s0">}</span><span class="s4">&amp;chat_id=997060203&quot;</span><span class="s3">)</span>
+
+<span class="s1">print</span><span class="s3">(</span><span class="s1">stock_price</span><span class="s3">, </span><span class="s1">day_range</span><span class="s3">, </span><span class="s1">pe_ratio</span><span class="s3">, </span><span class="s1">week_range</span><span class="s3">)</span>
+
+
+<span class="s2"># msft stock</span>
+<span class="s1">data_request </span><span class="s3">= </span><span class="s1">requests</span><span class="s3">.</span><span class="s1">get</span><span class="s3">(</span><span class="s4">'https://www.marketwatch.com/investing/stock/msft'</span><span class="s3">)</span>
+<span class="s1">soup </span><span class="s3">= </span><span class="s1">BeautifulSoup</span><span class="s3">(</span><span class="s1">data_request</span><span class="s3">.</span><span class="s1">content</span><span class="s3">, </span><span class="s4">'html.parser'</span><span class="s3">)</span>
+
+<span class="s1">stock_price </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'bg-quote'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'value'</span><span class="s3">)</span>
+<span class="s1">day_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__primary'</span><span class="s3">)</span>
+<span class="s1">pe_ratio </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'li'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'kv__item'</span><span class="s3">)</span>
+<span class="s1">week_range </span><span class="s3">= </span><span class="s1">soup</span><span class="s3">.</span><span class="s1">find</span><span class="s3">(</span><span class="s4">'span'</span><span class="s3">, </span><span class="s1">class_</span><span class="s3">=</span><span class="s4">'range kv__item'</span><span class="s3">)</span>
+
+<span class="s1">text </span><span class="s3">= </span><span class="s4">f&quot;💻MSFT: </span><span class="s0">{</span><span class="s1">stock_price</span><span class="s0">}\n</span><span class="s4">📈Day Range: </span><span class="s0">{</span><span class="s1">day_range</span><span class="s0">}\n</span><span class="s4">📊PE Ratio: </span><span class="s0">{</span><span class="s1">pe_ratio</span><span class="s0">}\n</span><span class="s4">📉52 Week Range: </span><span class="s0">{</span><span class="s1">week_range</span><span class="s0">}</span><span class="s4">&quot;</span>
+
+<span class="s1">requests</span><span class="s3">.</span><span class="s1">post</span><span class="s3">(</span><span class="s4">f&quot;https://api.telegram.org/bot</span><span class="s0">{</span><span class="s1">settings</span><span class="s3">.</span><span class="s1">TELEGRAM_API_KEY</span><span class="s0">}</span><span class="s4">/sendMessage?text=</span><span class="s0">{</span><span class="s1">text</span><span class="s0">}</span><span class="s4">&amp;chat_id=997060203&quot;</span><span class="s3">)</span>
+
+<span class="s1">print</span><span class="s3">(</span><span class="s1">stock_price</span><span class="s3">, </span><span class="s1">day_range</span><span class="s3">, </span><span class="s1">pe_ratio</span><span class="s3">, </span><span class="s1">week_range</span><span class="s3">)</span>
+
+</pre>
+</body>
+</html>
