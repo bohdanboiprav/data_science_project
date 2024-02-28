@@ -56,7 +56,7 @@ def get_crypto_price(crypto_name: str, crypto_link: str) -> None:
     day_range = soup.find_all('td', class_='Ta(end) Fw(600) Lh(14px)')[2].text.strip()
     week_range = soup.find_all('td', class_='Ta(end) Fw(600) Lh(14px)')[3].text.strip()
     price_increase = soup.find('div', class_='D(ib) Mend(20px)').find("fin-streamer", class_="Fw(500) Pstart(8px) Fz(24px)").text.strip()
-    text = f"{crypto_name}: {crypto_price}\n🔽🔼Day Range: {day_range}\n📊Week Range: {week_range}\n📈Price Increase: {price_increase}"
+    text = f"{crypto_name}: {crypto_price}\n⚖️Day Range: {day_range}\n📊Week Range: {week_range}\n📈Price Increase: {price_increase}"
     requests.post(f"https://api.telegram.org/bot{settings.TELEGRAM_API_KEY}/sendMessage?text={text}&chat_id=997060203")
 
 
