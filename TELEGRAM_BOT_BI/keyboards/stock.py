@@ -1,16 +1,32 @@
-# from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
-# from aiogram.filters.callback_data import CallbackData
-#
-# product_cb = CallbackData('product', 'id', 'action')
-#
-#
-# def product_markup(idx, count):
-#     global product_cb
-#
-#     markup = InlineKeyboardMarkup()
-#     back_btn = InlineKeyboardButton('⬅️', callback_data=product_cb.new(id=idx, action='decrease'))
-#     count_btn = InlineKeyboardButton(count, callback_data=product_cb.new(id=idx, action='count'))
-#     next_btn = InlineKeyboardButton('➡️', callback_data=product_cb.new(id=idx, action='increase'))
-#     markup.row(back_btn, count_btn, next_btn)
-#
-#     return markup
+from aiogram.filters.callback_data import CallbackData
+from aiogram.utils.keyboard import InlineKeyboardBuilder
+
+
+class StockCallback(CallbackData, prefix="stock_tracker"):
+    company: str
+    stock_price: float
+    day_range: str
+    pe_ratio: float
+    week_range: str
+
+
+class StockCallbackReturn(CallbackData, prefix="stock_main"):
+    text: str
+
+
+def get_keyboard_stock(list_of_stocks: list):
+    builder = InlineKeyboardBuilder()
+    for i in list_of_stocks:
+        builder.button(
+            text=i[0], callback_data=StockCallback(company=i[0], stock_price=i[1], day_range=i[2], pe_ratio=i[3],
+                                                   week_range=i[4])
+        )
+    builder.adjust(3)
+    return builder.as_markup()
+
+
+def get_keyboard_stock_return():
+    builder = InlineKeyboardBuilder()
+    builder.button(text="🔙Back", callback_data=StockCallbackReturn(text="covid_cases"))
+    builder.adjust(1)
+    return builder.as_markup()
