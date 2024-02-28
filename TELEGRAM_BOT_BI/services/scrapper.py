@@ -12,7 +12,7 @@ async def covid_cases_data():
     data_out = soup.find_all('div', class_='maincounter-number')
     data_out = [int(data_out.find('span').text.strip().replace(',', '')) for data_out in data_out]
     await async_insert(
-       f"INSERT INTO covid_cases (cases, deaths, recovered) VALUES ({data_out[0]}, {data_out[1]}, {data_out[2]})")
+        f"INSERT INTO covid_cases (cases, deaths, recovered) VALUES ({data_out[0]}, {data_out[1]}, {data_out[2]})")
     return f'{data_out[0]}, {data_out[1]}, {data_out[2]}'
 
 
@@ -37,8 +37,5 @@ async def get_stock_price(stock_name: str, stock_link: str):
     return f"{stock_name}: {stock_price}\n📈Day Range: {day_range}\n📊PE Ratio: {pe_ratio}\n📉52 Week Range: {week_range}"
 
 
-# Execute the function to insert the data into the database
-# print(asyncio.run(covid_cases_data()))
 for key, value in stock_mapping_dict.items():
     print(asyncio.run(get_stock_price(key, value)))
-

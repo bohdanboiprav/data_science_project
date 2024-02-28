@@ -39,28 +39,6 @@ async def async_select_all(custom_query: str):
         query_results = await conn.fetchall()
         return query_results
 
-"""
-async def async_select(custom_query: str):
-    session = boto3.Session(aws_access_key_id=settings.AWS_SERVER_PUBLIC_KEY,
-                            aws_secret_access_key=settings.AWS_SERVER_SECRET_KEY, region_name=settings.AWS_REGION)
-    client = session.client('rds')
-
-    token = client.generate_db_auth_token(DBHostname=settings.ENDPOINT, Port=settings.PORT, DBUsername=settings.DB_USER,
-                                          Region=settings.REGION)
-
-    try:
-        async with aiopg.connect(host=settings.ENDPOINT, port=settings.PORT, database=settings.DBNAME,
-                                 user=settings.DB_USER, password=settings.PASSWORD,
-                                 sslrootcert="SSLCERTIFICATE") as conn:
-            async with conn.cursor() as cur:
-                await cur.execute(custom_query)
-                query_results = await cur.fetchall()
-                return query_results
-    except Exception as e:
-        print("Database connection failed due to {}".format(e))
-
-"""
-
 
 async def async_insert(custom_query: str):
     session = boto3.Session(aws_access_key_id=settings.AWS_SERVER_PUBLIC_KEY,
