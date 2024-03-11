@@ -7,9 +7,16 @@ data_request = requests.get('https://www.worldometers.info/coronavirus/')
 soup = BeautifulSoup(data_request.content, 'html.parser')
 data_out = soup.find_all('div', class_='maincounter-number')
 data_out = [data_out.find('span').text.strip() for data_out in data_out]
+data_request1 = requests.get('https://worldpopulationreview.com/')
+soup = BeautifulSoup(data_request1.content, 'html.parser')
+current_population_world = soup.find('div', class_='text-center text-3xl mb-2').text.strip()
 
-text = f"🦠Cases: {data_out[0]}\n☠️Deaths: {data_out[1]}\n🏥Recovered: {data_out[2]}"
+
+text = f"🦠Cases: {data_out[0]}\n☠️Deaths: {data_out[1]}\n🏥Recovered: {data_out[2]}\n🌎World Population: {current_population_world}"
 requests.post(f"https://api.telegram.org/bot{settings.TELEGRAM_API_KEY}/sendMessage?text={text}&chat_id=997060203")
+
+
+
 
 
 mapping_dict = {
