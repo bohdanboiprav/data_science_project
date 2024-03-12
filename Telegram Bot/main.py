@@ -74,3 +74,8 @@ get_crypto_price('🌊XRP', mapping_dict['XRPUSD'])
 get_crypto_price('☀️SOL', mapping_dict['SOLUSD'])
 get_crypto_price('🐕DOGE', mapping_dict['DOGEUSD'])
 
+get_stock_price('⚡TSLA', mapping_dict['TSLA'])
+get_stock_price('📦AMZN', mapping_dict['AMZN'])
+get_stock_price('🔍GOOGL', mapping_dict['GOOGL'])
+get_stock_price('🍏AAPL', mapping_dict['AAPL'])
+get_stock_price('💻MSFT', mapping_dict['MSFT'])
