@@ -15,10 +15,7 @@ current_population_world = soup.find('div', class_='text-center text-3xl mb-2').
 text = f"🦠Cases: {data_out[0]}\n☠️Deaths: {data_out[1]}\n🏥Recovered: {data_out[2]}\n🌎World Population: {current_population_world}"
 requests.post(f"https://api.telegram.org/bot{settings.TELEGRAM_API_KEY}/sendMessage?text={text}&chat_id=997060203")
 
-
-
-
-
+#stock price code
 mapping_dict = {
     'TSLA': 'https://finance.yahoo.com/quote/TSLA?.tsrc=fin-srch',
     'AMZN': 'https://finance.yahoo.com/quote/AMZN?.tsrc=fin-srch',
@@ -27,7 +24,7 @@ mapping_dict = {
     'MSFT': 'https://finance.yahoo.com/quote/MSFT?.tsrc=fin-srch'
 }
 
-#
+
 def get_stock_price(stock_name: str, stock_link: str) -> None:
     data_request = requests.get(stock_link)
     soup = BeautifulSoup(data_request.content, 'html.parser')
@@ -74,8 +71,35 @@ get_crypto_price('🌊XRP', mapping_dict['XRPUSD'])
 get_crypto_price('☀️SOL', mapping_dict['SOLUSD'])
 get_crypto_price('🐕DOGE', mapping_dict['DOGEUSD'])
 
+<<<<<<< Updated upstream
 get_stock_price('⚡TSLA', mapping_dict['TSLA'])
 get_stock_price('📦AMZN', mapping_dict['AMZN'])
 get_stock_price('🔍GOOGL', mapping_dict['GOOGL'])
 get_stock_price('🍏AAPL', mapping_dict['AAPL'])
 get_stock_price('💻MSFT', mapping_dict['MSFT'])
+=======
+
+mapping_dict = {
+    'IRL': 'https://www.theglobaleconomy.com/Ireland/',
+    'USA': 'https://www.theglobaleconomy.com/USA/',
+    'UK': 'https://www.theglobaleconomy.com/United-Kingdom/',
+    'MOL': 'https://www.theglobaleconomy.com/Moldova/',
+    'UKR': 'https://www.theglobaleconomy.com/Ukraine/'
+}
+
+def get_country_economic_data(country_name: str, country_link: str):
+    data_request = requests.get(country_link)
+    soup = BeautifulSoup(data_request.content, 'html.parser')
+    real_gdp_percent = soup.find('div', class_='indicatorsLastValue mo re850px').text.strip()
+    inflation_cpi_percent = soup.find_all('div', class_='indicatorsLastValue mo re850px')[1].text.strip()
+    unemployment_rate_percent = soup.find_all('div', class_='indicatorsLastValue mo re850px')[2].text.strip()
+
+    text = f"{country_name}: {real_gdp_percent}\n📈Inflation CPI: {inflation_cpi_percent}\n📉Unemployment Rate: {unemployment_rate_percent}"
+    requests.post(f"https://api.telegram.org/bot{settings.TELEGRAM_API_KEY}/sendMessage?text={text}&chat_id=997060203")
+
+get_country_economic_data('🇮🇪Ireland GDP % Change', 'https://www.theglobaleconomy.com/Ireland/')
+get_country_economic_data('🇺🇸USA GDP % Change', 'https://www.theglobaleconomy.com/USA/')
+get_country_economic_data('🇬🇧UK GDP % Change', 'https://www.theglobaleconomy.com/United-Kingdom/')
+get_country_economic_data('🇲🇩Moldova GDP % Change', 'https://www.theglobaleconomy.com/Moldova/')
+get_country_economic_data('🇺🇦Ukraine GDP % Change', 'https://www.theglobaleconomy.com/Ukraine/')
+>>>>>>> Stashed changes
