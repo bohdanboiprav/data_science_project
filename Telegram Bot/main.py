@@ -102,4 +102,5 @@ get_country_economic_data('🇺🇸USA GDP % Change', 'https://www.theglobalecon
 get_country_economic_data('🇬🇧UK GDP % Change', 'https://www.theglobaleconomy.com/United-Kingdom/')
 get_country_economic_data('🇲🇩Moldova GDP % Change', 'https://www.theglobaleconomy.com/Moldova/')
 get_country_economic_data('🇺🇦Ukraine GDP % Change', 'https://www.theglobaleconomy.com/Ukraine/')
->>>>>>> Stashed changes
+
+#test same file
